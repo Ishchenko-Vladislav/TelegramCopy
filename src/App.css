@@ -21,6 +21,7 @@
   /* background: rgb(170, 170, 170); */
   background: #0f0f0fe3;
   color: white;
+  border-right: none;
 }
 .circleBox {
   position: absolute;
@@ -46,6 +47,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .circle img {
   pointer-events: none;
@@ -61,20 +63,36 @@
 .leftBox:hover .circleGroup {
   /* display: flex; */
 }
+.backDrop-hide .circleGroup {
+}
 .circleGroup {
   display: flex;
-  position: absolute;
-  box-shadow: 0 0 3px 0px rgb(143, 143, 143);
-  border-radius: 6px;
-  font-weight: 600;
-  padding: 8px;
   flex-direction: column;
+  position: absolute;
+  right: 0px;
+  box-shadow: 0 0 3px 0px rgb(143, 143, 143);
   width: 200px;
   bottom: 77px;
-  right: 0px;
-  transition: all 0.6s;
   transform-origin: right bottom;
+  border-radius: 6px;
+  padding: 8px;
+  font-weight: 600;
+  /* animation: showPopUp 0.3s ease-out; */
   transform: scale(0);
+  /*
+  */
+  /* 
+  bottom: 77px;
+  right: 0px;
+  */
+  transition: all 0.3s;
+}
+.circleGroup.active {
+  transform: scale(1);
+  transition: all 0.3s;
+}
+.circleGroup.active .circle {
+  z-index: 6;
 }
 .circleBox.dark .circleGroup {
   box-shadow: 0 0 5px 0px rgba(8, 8, 8, 0.606);
@@ -88,20 +106,20 @@
 .circle.active > div {
   display: flex;
   transform: scale(1);
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 .circle.active > img {
   transform: scale(0);
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 .circle img {
   display: flex;
-  transition: all 0.5s;
+  transition: all 0.3s;
   transform: scale(1);
 }
 .circle > div {
   transform: scale(0);
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 /* .circle.active :last-child {
   display: flex;
@@ -180,6 +198,11 @@
   width: 40px;
   height: 40px;
   position: relative;
+  z-index: 5;
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; */
   /* width: 20px;
   height: 100%;
   border-radius: 50%;
@@ -194,7 +217,11 @@
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
+  position: relative;
 }
+/* .header-burger__set.active {
+  z-index: 6;
+} */
 .leftBox__header-burger span {
   width: 100%;
   height: 2px;
@@ -411,31 +438,72 @@
   margin-right: 15px;
 }
 /*  ---------------------------------------------------------------------------------------- */
+@keyframes showPopUp {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes closePopUp {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+.backDrop {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+}
+.backDrop-hide .pop-up__burger {
+  /* opacity: 0; */
+  transform: scale(0);
+  transition: all 0.2s;
+}
 .pop-up__burger {
-  pointer-events: none;
-  top: 50px;
+  /* transition: all 0.3s; */
+
   position: absolute;
+  top: 70px;
+  left: 20px;
+  transform-origin: top left;
+  animation: showPopUp 0.3s ease-out;
   width: 270px;
   background: rgba(253, 252, 252, 0.7);
-  /* border: 1px solid black; */
-  box-shadow: 0 0 4px 0 black;
   border-radius: 10px;
+  box-shadow: 0 0 4px 0 black;
   padding: 5px;
+  display: flex;
+  flex-direction: column;
+  /* pointer-events: none;
+  top: 50px;
+  left: 50px;
+  position: absolute;
+  width: 270px;
+  
   opacity: 0;
-  transition: all 0.3s;
+  transition: all 0.3s; */
 }
 .pop-up__burger.dark {
-  background: #0f0f0f71;
+  /* background: #0f0f0f71;
   color: white;
-  /* box-shadow: 0 0 4px 0 wheat; */
-  transition: all 0.3s;
+  transition: all 0.3s; */
 }
 .pop-up__burger.dark button {
-  background: #0f0f0f00;
-  /* background: red; */
+  /* background: #0f0f0f00;
   color: white;
-  /* box-shadow: 0 0 4px 0 wheat; */
-  transition: all 0.3s;
+  transition: all 0.3s; */
 }
 .pop-up__burger.dark .pop-up__burger-item {
   /* background: #0f0f0f71; */
@@ -478,12 +546,11 @@
   display: flex;
   align-items: center;
   outline: none;
-  border: none;
   background: inherit;
+  border: none;
   user-select: none;
   box-sizing: border-box;
   height: 38px;
-  transition: all 0.3s;
 }
 
 .pop-up__burger-item:active {
@@ -495,18 +562,19 @@
   background: rgb(184, 184, 184);
 }
 .pop-up__burger.dark .pop-up__burger-item:hover {
-  background: rgba(17, 17, 17, 0.829);
+  /* background: rgba(17, 17, 17, 0.829); */
 }
 .pop-up__burger-item svg {
   margin-right: 10px;
   /* stroke: black; */
   /* fill: white; */
-  fill-rule: nonzero;
+  /* fill-rule: nonzero; */
+  pointer-events: none;
 }
 
-.pop-up__burger.active {
-  opacity: 1;
-  pointer-events: all;
+.backDrop.active .pop-up__burger {
+  /* opacity: 1;
+  pointer-events: all; */
 }
 /* ---------------------------------------------------------------------------------------------------------- */
 .nightMode {
